@@ -1,3 +1,4 @@
+require 'cgi'
 require 'rspec'
 require 'webmock/rspec'
 
