@@ -8,7 +8,7 @@ module Spamster
     # see http://akismet.com/development/api/#verify-key
     def key_valid?
       check_config
-      params = {blog: blog, key: key}
+      params = {:blog => blog, :key => key}
       response = Net::HTTP.post_form(URI("http://rest.akismet.com/1.1/verify-key"), params)
       response.body == 'valid'
     end
@@ -43,7 +43,7 @@ module Spamster
 
     def submit(method, params = {})
       check_config
-      params = params.merge(blog: blog)
+      params = params.merge(:blog => blog)
       check_required_params(params)
       response = Net::HTTP.post_form(URI("http://#{key}.rest.akismet.com/1.1/#{method}"), params)
       response.body
