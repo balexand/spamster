@@ -30,13 +30,19 @@ describe Spamster do
     it "should return true with valid response" do
       stub_request(:post, "http://rest.akismet.com/1.1/verify-key").to_return(body: "valid")
       Spamster.key_valid?.should == true
-      assert_requested :post, "http://rest.akismet.com/1.1/verify-key", body: "blog=http%3A%2F%2Fexample.com%2F&key=123abc", times: 1
+      assert_requested(:post, "http://rest.akismet.com/1.1/verify-key", times: 1) do |req|
+        CGI.parse(req.body).should == {"blog" => ["http://example.com/"], "key" => ["123abc"]}
+        true
+      end
     end
 
     it "should return false with invalid response" do
       stub_request(:post, "http://rest.akismet.com/1.1/verify-key").to_return(body: "invalid")
       Spamster.key_valid?.should == false
-      assert_requested :post, "http://rest.akismet.com/1.1/verify-key", body: "blog=http%3A%2F%2Fexample.com%2F&key=123abc", times: 1
+      assert_requested(:post, "http://rest.akismet.com/1.1/verify-key", times: 1) do |req|
+        CGI.parse(req.body).should == {"blog" => ["http://example.com/"], "key" => ["123abc"]}
+        true
+      end
     end
   end
 
