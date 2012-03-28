@@ -50,5 +50,3 @@ module Spamster
     end
   end
 end
-
-# FIXME User-Agent

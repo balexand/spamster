@@ -1,6 +1,6 @@
 # Spamster [![Build Status](https://secure.travis-ci.org/balexand/spamster.png)](http://travis-ci.org/balexand/spamster)
 
-Simple spam filtering.
+Simple spam filtering that works with any Ruby application. It does not depend on any framework or ORM, although it has optional Rack middleware.
 
 ## Installation
 
@@ -13,10 +13,6 @@ gem 'spamster'
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install spamster
 
 ## Usage
 
@@ -44,7 +40,7 @@ Spamster.key_valid?
 
 #### spam?
 
-Checks if a comment is spam using [comment-check](http://akismet.com/development/api/#comment-check)
+Checks if a comment is spam using [comment-check](http://akismet.com/development/api/#comment-check).
 
 ```ruby
 Spamster.spam?(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
@@ -52,7 +48,7 @@ Spamster.spam?(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author
 
 ### spam!
 
-Reports a false negative using [submit-spam](http://akismet.com/development/api/#submit-spam)
+Reports a false negative using [submit-spam](http://akismet.com/development/api/#submit-spam).
 
 ```ruby
 Spamster.spam!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
@@ -60,7 +56,7 @@ Spamster.spam!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author
 
 ### ham!
 
-Reports a false positive using [submit-ham](http://akismet.com/development/api/#submit-ham)
+Reports a false positive using [submit-ham](http://akismet.com/development/api/#submit-ham).
 
 ```ruby
 Spamster.ham!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
