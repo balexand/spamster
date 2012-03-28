@@ -1,4 +1,4 @@
-# Spamster
+# Spamster [![Build Status](https://secure.travis-ci.org/balexand/spamster.png)](http://travis-ci.org/balexand/spamster)
 
 Simple spam filtering.
 
