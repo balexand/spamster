@@ -1,12 +1,14 @@
 # Spamster
 
-TODO: Write a gem description
+Simple spam filtering.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'spamster'
+```ruby
+gem 'spamster'
+```
 
 And then execute:
 
@@ -18,7 +20,51 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Quick start
+
+Start by signing up for an API key [here](https://akismet.com/signup/). Then configure Spamster like:
+
+```ruby
+Spamster.blog = "http://yoursite.com/"
+Spamster.key = "your-api-key"
+```
+
+FIXME middleware
+FIXME usage
+
+### Spamster methods
+
+#### key_valid?
+
+Checks if the key is valid using [verify-key](http://akismet.com/development/api/#verify-key).
+
+```ruby
+Spamster.key_valid?
+```
+
+#### spam?
+
+Checks if a comment is spam using [comment-check](http://akismet.com/development/api/#comment-check)
+
+```ruby
+Spamster.spam?(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
+```
+
+### spam!
+
+Reports a false negative using [submit-spam](http://akismet.com/development/api/#submit-spam)
+
+```ruby
+Spamster.spam!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
+```
+
+### ham!
+
+Reports a false positive using [submit-ham](http://akismet.com/development/api/#submit-ham)
+
+```ruby
+Spamster.ham!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
+```
 
 ## Contributing
 
