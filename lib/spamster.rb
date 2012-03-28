@@ -2,8 +2,10 @@ require 'net/http'
 require 'spamster/version'
 
 module Spamster
+  autoload :Rack, 'spamster/rack/middleware'
+
   class <<self
-    attr_accessor :blog, :key
+    attr_accessor :blog, :key, :request_params
 
     # see http://akismet.com/development/api/#verify-key
     def key_valid?
