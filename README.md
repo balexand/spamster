@@ -60,7 +60,23 @@ Spamster.debug_output = $stderr
 
 ### Model mixin
 
-FIXME
+The easiest way to use Spamster is to include the mixin in your comment model:
+
+```ruby
+class Comment
+  attr_accessor :content, :email, :name
+
+  include Spamster::Model
+  spamster_attrs comment_author: :name, comment_author_email: :email, comment_content: :content
+end
+
+comment = Comment.new #...
+comment.spam? # checks for spam
+comment.spam! # reports a false negative
+comment.ham!  # reports a false positive
+```
+
+For a full list of parameters accepted by `spamster_attrs`, see [Akismet's documentation for comment-check](http://akismet.com/development/api/#comment-check).
 
 ### Spamster methods
 
