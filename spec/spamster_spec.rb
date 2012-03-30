@@ -2,13 +2,19 @@ require 'spec_helper'
 
 describe Spamster do
   before(:each) do
-    Spamster.blog = "http://example.com/"
-    Spamster.key = "123abc"
+    Spamster.use_akismet("123abc", "http://example.com/")
   end
 
   describe "perform_post" do
     before(:each) do
       stub_request(:post, "http://123abc.rest.akismet.com/1.1/comment-check")
+    end
+
+    it "should raise exception if :api_host is not configured" do
+      Spamster.api_host = ""
+      expect do
+        Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
+      end.to raise_exception{ |e| e.message.should == "'Spamster.api_host' must be set" }
     end
 
     it "should raise exception if :blog is not configured" do

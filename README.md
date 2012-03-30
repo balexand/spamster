@@ -18,14 +18,25 @@ And then execute:
 
 ### Configuration
 
-Start by signing up for an API key [here](https://akismet.com/signup/). Then configure Spamster like:
+First you'll need to sign up for an API key from [Akismet](https://akismet.com/signup/) or [TypePad AntiSpam](http://antispam.typepad.com/info/get-api-key.html). Then configure Spamster like:
 
 ```ruby
-Spamster.blog = "http://yoursite.com/"
-Spamster.key = "your-api-key"
+Spamster.use_akismet("your-api-key", "http://yoursite.com/")
 ```
 
-FIXME middleware
+or...
+
+```ruby
+Spamster.use_typepad("your-api-key", "http://yoursite.com/")
+```
+
+If you're building a Rack app (all Rails 3+ apps are Rack apps), then you'll probably want to use the optional Rack middleware so Spamster can automatically fill in the `referrer`, `user_agent`, and `user_ip` params. If you're using Rails then add the middleware like this:
+
+```ruby
+Rails.application.config.middleware.use Spamster::Rack::Middleware
+```
+
+If you're using Rails, then a suggested location to keep the above configuration is in an initializer file.
 
 ### Sanity check
 
