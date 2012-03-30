@@ -8,12 +8,24 @@ module Spamster
   autoload :Rack, 'spamster/rack/middleware'
 
   class <<self
-    attr_accessor :blog, :debug_output, :key, :request_params
+    attr_accessor :api_host, :blog, :debug_output, :key, :request_params
+
+    def use_akismet(key, blog)
+      self.api_host = "rest.akismet.com"
+      self.blog = blog
+      self.key = key
+    end
+
+    def use_typepad(key, blog)
+      self.api_host = "api.antispam.typepad.com"
+      self.blog = blog
+      self.key = key
+    end
 
     # see http://akismet.com/development/api/#verify-key
     def key_valid?
       params = {:blog => blog, :key => key}
-      response = perform_post("http://rest.akismet.com/1.1/verify-key", params)
+      response = perform_post("http://#{api_host}/1.1/verify-key", params)
       response.body == 'valid'
     end
 
@@ -34,8 +46,9 @@ module Spamster
 
   private
     def perform_post(url, params)
-      raise "'Spamster.blog' must be set" unless blog.present?
-      raise "'Spamster.key' must be set"  unless key.present?
+      [:api_host, :blog, :key].each do |param|
+        raise "'Spamster.#{param}' must be set" unless send(param).present?
+      end
 
       uri = URI(url)
 
@@ -59,7 +72,7 @@ module Spamster
         raise "required param #{param.inspect} is missing" unless params[param].present?
       end
 
-      response = perform_post("http://#{key}.rest.akismet.com/1.1/#{method}", params)
+      response = perform_post("http://#{key}.#{api_host}/1.1/#{method}", params)
       response.body
     end
   end
