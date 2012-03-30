@@ -4,8 +4,8 @@ require File.expand_path('../lib/spamster/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Brian Alexander"]
   gem.email         = ["balexand@gmail.com"]
-  gem.description   = %q{Simple spam filtering that takes minutes to set up.}
-  gem.summary       = %q{Simple spam filtering.}
+  gem.description   = %q{Simple spam filtering that works with any Ruby application and can be set up in minutes. Uses Akismet or TypePad AntiSpam.}
+  gem.summary       = %q{Simple spam filtering using Akismet or TypePad AntiSpam.}
   gem.homepage      = "https://github.com/balexand/spamster"
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
