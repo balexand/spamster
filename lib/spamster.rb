@@ -1,33 +1,34 @@
 require 'net/http'
 require 'spamster/version'
+require 'uri'
 
 module Spamster
   autoload :Rack, 'spamster/rack/middleware'
 
   class <<self
-    attr_accessor :blog, :key, :request_params
+    attr_accessor :blog, :debug_output, :key, :request_params
 
     # see http://akismet.com/development/api/#verify-key
     def key_valid?
       check_config
       params = {:blog => blog, :key => key}
-      response = Net::HTTP.post_form(URI("http://rest.akismet.com/1.1/verify-key"), params)
+      response = perform_post("http://rest.akismet.com/1.1/verify-key", params)
       response.body == 'valid'
     end
 
     # see http://akismet.com/development/api/#comment-check
     def spam?(params)
-      submit("comment-check", params) == 'true'
+      perform_spam_post("comment-check", params) == 'true'
     end
 
     # see http://akismet.com/development/api/#submit-spam
     def spam!(params)
-      submit("submit-spam", params)
+      perform_spam_post("submit-spam", params)
     end
 
     # see http://akismet.com/development/api/#submit-ham
     def ham!(params)
-      submit("submit-ham", params)
+      perform_spam_post("submit-ham", params)
     end
 
   private
@@ -43,11 +44,24 @@ module Spamster
       end
     end
 
-    def submit(method, params = {})
+    def perform_post(url, params)
+      uri = URI(url)
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.set_debug_output(debug_output) if debug_output
+
+      req = Net::HTTP::Post.new(uri.path)
+      req.set_form_data(params)
+
+      http.start { |h| h.request(req) }
+    end
+
+    # checks params and performs post for spam?, spam!, and ham!
+    def perform_spam_post(method, params = {})
       check_config
       params = params.merge(:blog => blog)
       check_required_params(params)
-      response = Net::HTTP.post_form(URI("http://#{key}.rest.akismet.com/1.1/#{method}"), params)
+      response = perform_post("http://#{key}.rest.akismet.com/1.1/#{method}", params)
       response.body
     end
   end

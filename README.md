@@ -16,7 +16,7 @@ And then execute:
 
 ## Usage
 
-### Quick start
+### Configuration
 
 Start by signing up for an API key [here](https://akismet.com/signup/). Then configure Spamster like:
 
@@ -26,7 +26,30 @@ Spamster.key = "your-api-key"
 ```
 
 FIXME middleware
-FIXME usage
+
+### Sanity check
+
+First check that your key is valid:
+
+```ruby
+Spamster.key_valid? # => true
+```
+
+Then check that it detects spam using the name `viagra-test-123`:
+
+```ruby
+Spamster.spam?(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123") # => true
+```
+
+And if you want to see the HTTP requests/responses while debugging:
+
+```ruby
+Spamster.debug_output = $stderr
+```
+
+### Model mixin
+
+FIXME
 
 ### Spamster methods
 
