@@ -12,14 +12,14 @@ describe Spamster do
     end
 
     it "should raise exception if :blog is not configured" do
-      Spamster.blog = nil
+      Spamster.blog = ""
       expect do
         Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.blog' must be set" }
     end
 
     it "should raise exception if :key is not configured" do
-      Spamster.key = nil
+      Spamster.key = " \n"
       expect do
         Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.key' must be set" }
@@ -82,7 +82,7 @@ describe Spamster do
 
     it "should raise exception if required param missing" do
       expect do
-        Spamster.spam?(:user_ip => "222.222.222.222")
+        Spamster.spam?(:user_agent => " ", :user_ip => "222.222.222.222")
       end.to raise_exception{ |e| e.message.should == "required param :user_agent is missing" }
 
       expect do

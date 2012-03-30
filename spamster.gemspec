@@ -19,5 +19,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec"
   gem.add_development_dependency "webmock"
 
+  gem.add_runtime_dependency "activesupport"
   gem.add_runtime_dependency "jruby-openssl" if RUBY_PLATFORM == "java"
 end
