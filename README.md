@@ -1,6 +1,6 @@
 # Spamster [![Build Status](https://secure.travis-ci.org/balexand/spamster.png)](http://travis-ci.org/balexand/spamster)
 
-Simple spam filtering that works with any Ruby application. It does not depend on any framework or ORM, although it has optional Rack middleware.
+Simple spam filtering that works with any Ruby application and can be set up in minutes. It does not depend on any specific ORM or framework, although it includes optional Rack middleware. It uses Akismet or TypePad AntiSpam.
 
 ## Installation
 
@@ -76,13 +76,13 @@ comment.spam! # reports a false negative
 comment.ham!  # reports a false positive
 ```
 
-For a full list of parameters accepted by `spamster_attrs`, see [Akismet's documentation for comment-check](http://akismet.com/development/api/#comment-check).
+For a full list of parameters accepted by `spamster_attrs`, see [Akismet's documentation for `comment-check`](http://akismet.com/development/api/#comment-check).
 
 ### Spamster methods
 
 #### key_valid?
 
-Checks if the key is valid using [verify-key](http://akismet.com/development/api/#verify-key).
+Checks if the key is valid using [`verify-key`](http://akismet.com/development/api/#verify-key).
 
 ```ruby
 Spamster.key_valid?
@@ -90,7 +90,7 @@ Spamster.key_valid?
 
 #### spam?
 
-Checks if a comment is spam using [comment-check](http://akismet.com/development/api/#comment-check).
+Checks if a comment is spam using [`comment-check`](http://akismet.com/development/api/#comment-check).
 
 ```ruby
 Spamster.spam?(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
@@ -98,7 +98,7 @@ Spamster.spam?(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author
 
 ### spam!
 
-Reports a false negative using [submit-spam](http://akismet.com/development/api/#submit-spam).
+Reports a false negative using [`submit-spam`](http://akismet.com/development/api/#submit-spam).
 
 ```ruby
 Spamster.spam!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
@@ -106,7 +106,7 @@ Spamster.spam!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author
 
 ### ham!
 
-Reports a false positive using [submit-ham](http://akismet.com/development/api/#submit-ham).
+Reports a false positive using [`submit-ham`](http://akismet.com/development/api/#submit-ham).
 
 ```ruby
 Spamster.ham!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author: "viagra-test-123")
@@ -114,8 +114,6 @@ Spamster.ham!(user_ip: "222.222.222.222", user_agent: "Mozilla", comment_author:
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Fork it, install dependencies with `bundle`, and run tests with `bundle exec rake`. If you submit a pull request, then remember to include tests.
+
+Created by Brian Alexander and released under an MIT License.
