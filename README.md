@@ -71,9 +71,9 @@ class Comment
 end
 
 comment = Comment.new #...
-comment.spam? # checks for spam
-comment.spam! # reports a false negative
-comment.ham!  # reports a false positive
+comment.spamster.spam? # checks for spam
+comment.spamster.spam! # reports a false negative
+comment.spamster.ham!  # reports a false positive
 ```
 
 For a full list of parameters accepted by `spamster_attrs`, see [Akismet's documentation for `comment-check`](http://akismet.com/development/api/#comment-check).

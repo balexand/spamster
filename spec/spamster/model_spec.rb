@@ -15,30 +15,30 @@ describe Spamster::Model do
     end
   end
 
-  describe "spamster_data" do
+  describe "spamster.data" do
     it "should get correct params from model" do
-      comment.send(:spamster_data).should == {:comment_author => "John", :comment_author_email => "test@example.com", :comment_content => "hello world"}
+      comment.spamster.send(:data).should == {:comment_author => "John", :comment_author_email => "test@example.com", :comment_content => "hello world"}
     end
   end
 
-  describe "spam?" do
+  describe "spamster.spam?" do
     it "should pass params from model" do
       Spamster.should_receive(:spam?).once.with(:comment_author => "John", :comment_author_email => "test@example.com", :comment_content => "hello world")
-      comment.spam?
+      comment.spamster.spam?
     end
   end
 
-  describe "spam!" do
+  describe "spamster.spam!" do
     it "should pass params from model" do
       Spamster.should_receive(:spam!).once.with(:comment_author => "John", :comment_author_email => "test@example.com", :comment_content => "hello world")
-      comment.spam!
+      comment.spamster.spam!
     end
   end
 
-  describe "ham!" do
+  describe "spamster.ham!" do
     it "should pass params from model" do
       Spamster.should_receive(:ham!).once.with(:comment_author => "John", :comment_author_email => "test@example.com", :comment_content => "hello world")
-      comment.ham!
+      comment.spamster.ham!
     end
   end
 end

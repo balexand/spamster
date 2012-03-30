@@ -1,4 +1,5 @@
 require 'active_support/concern'
+require 'spamster/model/proxy'
 
 module Spamster
   module Model
@@ -15,23 +16,8 @@ module Spamster
       end
     end
 
-    def spam?
-      Spamster.spam?(spamster_data)
-    end
-
-    def spam!
-      Spamster.spam!(spamster_data)
-    end
-
-    def ham!
-      Spamster.ham!(spamster_data)
-    end
-
-  private
-    def spamster_data
-      Hash[self.class.spamster_attrs.map do |param, method|
-        [param, send(method)]
-      end]
+    def spamster
+      Proxy.new(self)
     end
   end
 end
