@@ -1,3 +1,5 @@
+require 'active_support'
+require 'active_support/core_ext'
 require 'net/http'
 require 'spamster/version'
 require 'uri'
@@ -32,8 +34,8 @@ module Spamster
 
   private
     def perform_post(url, params)
-      raise "'Spamster.blog' must be set" unless blog
-      raise "'Spamster.key' must be set"  unless key
+      raise "'Spamster.blog' must be set" unless blog.present?
+      raise "'Spamster.key' must be set"  unless key.present?
 
       uri = URI(url)
 
@@ -54,7 +56,7 @@ module Spamster
     def perform_spam_post(method, params = {})
       params = params.merge(:blog => blog)
       [:blog, :user_agent, :user_ip].each do |param|
-        raise "required param #{param.inspect} is missing" unless params[param]
+        raise "required param #{param.inspect} is missing" unless params[param].present?
       end
 
       response = perform_post("http://#{key}.rest.akismet.com/1.1/#{method}", params)
