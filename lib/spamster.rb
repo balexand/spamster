@@ -69,6 +69,7 @@ module Spamster
     # checks params and performs post for spam?, spam!, and ham!
     def perform_spam_post(method, params = {})
       params = params.merge(:blog => blog)
+      params.merge!(request_params) if request_params
       [:blog, :user_agent, :user_ip].each do |param|
         raise "required param #{param.inspect} is missing" unless params[param].present?
       end
