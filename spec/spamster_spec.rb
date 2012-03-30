@@ -6,7 +6,7 @@ describe Spamster do
     Spamster.key = "123abc"
   end
 
-  describe "perform_spam_post" do
+  describe "perform_post" do
     before(:each) do
       stub_request(:post, "http://123abc.rest.akismet.com/1.1/comment-check")
     end
@@ -14,14 +14,14 @@ describe Spamster do
     it "should raise exception if :blog is not configured" do
       Spamster.blog = nil
       expect do
-        Spamster.send(:perform_spam_post, "comment-check")
+        Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.blog' must be set" }
     end
 
     it "should raise exception if :key is not configured" do
       Spamster.key = nil
       expect do
-        Spamster.send(:perform_spam_post, "comment-check")
+        Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.key' must be set" }
     end
   end
