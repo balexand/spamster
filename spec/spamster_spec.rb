@@ -24,6 +24,21 @@ describe Spamster do
         Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.key' must be set" }
     end
+
+    it "should set User-Agent" do
+      Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
+      assert_requested(:post, "http://123abc.rest.akismet.com/1.1/comment-check", :times => 1, :headers => {'User-Agent' => "Spamster/#{Spamster::VERSION}"})
+
+      class Rails
+        def self.version
+          "3.2.2"
+        end
+      end
+
+      Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
+      assert_requested(:post, "http://123abc.rest.akismet.com/1.1/comment-check", :times => 1, :headers => {'User-Agent' => "Rails/3.2.2 | Spamster/#{Spamster::VERSION}"})
+      Object.send(:remove_const, :Rails)
+    end
   end
 
   describe "key_valid?" do

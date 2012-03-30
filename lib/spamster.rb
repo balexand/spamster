@@ -42,6 +42,10 @@ module Spamster
 
       req = Net::HTTP::Post.new(uri.path)
       req.set_form_data(params)
+      # Akismet wants User-Agent format: Application Name/Version | Plugin Name/Version
+      user_agent = "Spamster/#{VERSION}"
+      user_agent = "Rails/#{Rails.version} | " + user_agent if defined?(Rails)
+      req['User-Agent'] = user_agent
 
       http.start { |h| h.request(req) }
     end
