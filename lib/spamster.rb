@@ -5,6 +5,7 @@ require 'spamster/version'
 require 'uri'
 
 module Spamster
+  autoload :Model, 'spamster/model'
   autoload :Rack, 'spamster/rack/middleware'
 
   class <<self
