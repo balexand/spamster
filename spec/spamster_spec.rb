@@ -6,7 +6,7 @@ describe Spamster do
     Spamster.key = "123abc"
   end
 
-  describe "submit" do
+  describe "perform_post" do
     before(:each) do
       stub_request(:post, "http://123abc.rest.akismet.com/1.1/comment-check")
     end
@@ -14,15 +14,30 @@ describe Spamster do
     it "should raise exception if :blog is not configured" do
       Spamster.blog = nil
       expect do
-        Spamster.send(:submit, "comment-check")
+        Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.blog' must be set" }
     end
 
     it "should raise exception if :key is not configured" do
       Spamster.key = nil
       expect do
-        Spamster.send(:submit, "comment-check")
+        Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
       end.to raise_exception{ |e| e.message.should == "'Spamster.key' must be set" }
+    end
+
+    it "should set User-Agent" do
+      Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
+      assert_requested(:post, "http://123abc.rest.akismet.com/1.1/comment-check", :times => 1, :headers => {'User-Agent' => "Spamster/#{Spamster::VERSION}"})
+
+      class Rails
+        def self.version
+          "3.2.2"
+        end
+      end
+
+      Spamster.send(:perform_post, "http://123abc.rest.akismet.com/1.1/comment-check", {})
+      assert_requested(:post, "http://123abc.rest.akismet.com/1.1/comment-check", :times => 1, :headers => {'User-Agent' => "Rails/3.2.2 | Spamster/#{Spamster::VERSION}"})
+      Object.send(:remove_const, :Rails)
     end
   end
 
