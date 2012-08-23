@@ -5,4 +5,3 @@ rvm:
   - jruby-18mode
   - jruby-19mode
   - ree
-  - ruby-head
