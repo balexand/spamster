@@ -1,13 +1,12 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'net/http'
+require 'spamster/model'
+require 'spamster/rack/middleware'
 require 'spamster/version'
 require 'uri'
 
 module Spamster
-  autoload :Model, 'spamster/model'
-  autoload :Rack, 'spamster/rack/middleware'
-
   class <<self
     attr_accessor :api_host, :blog, :debug_output, :key, :request_params
 
